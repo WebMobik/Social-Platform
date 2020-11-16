@@ -19,6 +19,10 @@ const config = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [ 'babel-loader' ]
+            },
+            {
+                test: /\.(ttf|eot|svg|png|jpe?g|gif)(\?[\s\S]+)?$/,
+                type: 'asset/resource'
             }
         ]
     }
