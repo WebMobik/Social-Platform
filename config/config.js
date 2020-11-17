@@ -3,6 +3,8 @@ const config = {
     port: process.env.PORT || 3000,
     jwtSecret: process.env.JWT_SECRET || "MOBIK_secret_key",
     mongoUri: "mongodb+srv://mobik:123qwe@cluster0.y5ijq.mongodb.net/social?retryWrites=true&w=majority"
+    // "mongodb+srv://mobik:123qwe@cluster0.ajgac.mongodb.net/social?retryWrites=true&w=majority"
+    // "mongodb+srv://mobik:123qwe@cluster0.y5ijq.mongodb.net/social?retryWrites=true&w=majority"
 }
 
 export default config

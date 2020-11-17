@@ -1,5 +1,3 @@
-const { response } = require("express")
-
 const signin = async (user) => {
     try {
         const response = await fetch('/api/signin/', {

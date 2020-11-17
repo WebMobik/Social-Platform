@@ -25,8 +25,12 @@ const config = {
                 type: 'asset/resource'
             }
         ]
+    },
+    resolve: {
+        fallback: {
+            "crypto": false
+        }
     }
-
 }
 
 module.exports = config
