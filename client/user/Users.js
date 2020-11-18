@@ -13,21 +13,24 @@ export default function Users() {
         const abortController = new AbortController()
         const signal = abortController.signal
 
-        list(signal).then((data) => {
-            if (data && data.error) {
-                console.log(data.error)
-            } else {
-                setUsers(data)
-            }
-        })
+        list(signal)
+            .then((data) => {
+                if (data && data.error) {
+                    console.log(data.error)
+                } else {
+                    setUsers(data)
+                }
+            })
 
         return function cleanup() {
             abortController.abort()
         }
     }, [])
 
+    // classes.root and classes.title
+
     return (
-        <Paper elevation={4}>
+        <Paper elevation={4}> 
             <Typography variant="h6">
                 All Users
             </Typography>
