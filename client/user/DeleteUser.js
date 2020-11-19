@@ -3,8 +3,9 @@ import {DeleteIcon} from '@material-ui/icons'
 import React, { useState } from "react";
 import auth from "../auth/auth-helper";
 import { remove } from "./api-user";
+import PropTypes from 'prop-types'
 
-export default function DeleteUser() {
+export default function DeleteUser({userId}) {
     const [open, setOpen] = useState(false)
     const [redirect, setRedirect] = useState(false)
 
@@ -18,7 +19,7 @@ export default function DeleteUser() {
 
     const deleteAccount = () => {
         const jwt = auth.isAuthenticated()
-        remove({userId: props.userId}, {t: jwt.token})
+        remove({userId: userId}, {t: jwt.token})
             .then(data => {
                 if (data && data.error) {
                     console.log(data.error)

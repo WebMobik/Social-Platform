@@ -1,11 +1,23 @@
 import React, {useEffect, useState} from 'react'
-import {list} from './api-user'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-import {List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction} from '@material-ui/core'
+import {list} from './api-user'
+import {List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, withStyles} from '@material-ui/core'
 import {Paper, Typography, Avatar, IconButton} from '@material-ui/core'
 import {ArrowForward, Person} from '@material-ui/icons'
 
-export default function Users() {
+const styles = theme => ({
+    root: theme.mixins.gutters({
+      padding: theme.spacing.unit,
+      margin: theme.spacing.unit * 5
+    }),
+    title: {
+      margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
+      color: theme.palette.openTitle
+    }
+})
+
+function Users({classes}) {
 
     const [users, setUsers] = useState([])
 
@@ -27,11 +39,9 @@ export default function Users() {
         }
     }, [])
 
-    // classes.root and classes.title
-
     return (
-        <Paper elevation={4}> 
-            <Typography variant="h6">
+        <Paper elevation={4} className={classes.root}> 
+            <Typography variant="h6" className={classes.title}>
                 All Users
             </Typography>
             <List dense>
@@ -59,3 +69,9 @@ export default function Users() {
         </Paper>
     )
 }
+
+Users.propTypes = {
+    classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Users)
