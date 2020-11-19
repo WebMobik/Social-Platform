@@ -1,4 +1,5 @@
-export default () => {
+export default ({markup, css}) => {
+    console.log(markup)
     return `
         <!DOCTYPE html>
             <html lang="en">
@@ -7,10 +8,12 @@ export default () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                <style>a{text-decoration: none}</style>
                 <title>MERN Skeleton</title>
             </head>
             <body>
-                <div id="root"></div>
+                <div id="root">${markup}</div>
+                <style id="jss-server-side">${css}</style>
                 <script type="text/javascript" src="/dist/bundle.js"></script>
             </body>
         </html>

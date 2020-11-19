@@ -1,5 +1,6 @@
 import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core'
-import { HomeIcon } from '@material-ui/icons'
+import HomeIcon from '@material-ui/icons/Home'
+import React from 'react'
 import {withRouter} from 'react-router'
 import { Link } from 'react-router-dom'
 import auth from '../auth/auth-helper'
@@ -60,3 +61,5 @@ const isActive = (history, path) => {
     else
         return {color: "#ffffff"}
 }
+
+export default Menu

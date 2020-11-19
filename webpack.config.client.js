@@ -24,7 +24,7 @@ const config = {
                 use: [ 'babel-loader' ]
             },
             {
-                test: /\.(ttf|eot|svg|png|webp|jpe?g|gif)(\?[\s\S]+)?$/,
+                test: /\.(ttf|eot|svg|webp|png|jpe?g|gif)(\?[\s\S]+)?$/,
                 type: 'asset/resource'
             }
         ]

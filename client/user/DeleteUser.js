@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContentText, DialogTitle, IconButton } from "@material-ui/core";
-import {DeleteIcon} from '@material-ui/icons'
+import DeleteIcon from '@material-ui/icons/Delete'
 import React, { useState } from "react";
 import auth from "../auth/auth-helper";
 import { remove } from "./api-user";
