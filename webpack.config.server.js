@@ -1,17 +1,17 @@
+
 const path = require('path')
-const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const CURRENT_WORKING_DIR = process.cwd()
 
 const config = {
-    name: 'server',
+    name: "server",
     entry: [ path.join(CURRENT_WORKING_DIR , './server/server.js') ],
-    target: 'node',
+    target: "node",
     output: {
         path: path.join(CURRENT_WORKING_DIR , '/dist/'),
-        filename: 'server.generated.js',
+        filename: "server.generated.js",
         publicPath: '/dist/',
-        libraryTarget: 'commonjs2'
+        libraryTarget: "commonjs2"
     },
     externals: [nodeExternals()],
     module: {
@@ -22,8 +22,8 @@ const config = {
                 use: [ 'babel-loader' ]
             },
             {
-                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
-                use: 'file-loader'
+                test: /\.(ttf|eot|svg|png|webp|jpe?g|gif)(\?[\s\S]+)?$/,
+                type: 'asset/resource'
             }
         ]
     }

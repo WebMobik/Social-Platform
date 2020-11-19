@@ -1,24 +1,28 @@
+
 const path = require('path')
-const nodeExternals = require('webpack-node-externals')
 const CURRENT_WORKING_DIR = process.cwd()
 
 const config = {
     mode: "production",
-    entry: [ path.join(CURRENT_WORKING_DIR , 'client/main.js') ],
+    entry: [
+        path.join(CURRENT_WORKING_DIR, 'client/main.js')
+    ],
     output: {
-        path: path.join(CURRENT_WORKING_DIR , '/dist/'),
-        filename: "bundle.js",
-        publicPath: "/dist/",
+        path: path.join(CURRENT_WORKING_DIR , '/dist'),
+        filename: 'bundle.js',
+        publicPath: "/dist/"
     },
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
-                use: [ 'babel-loader' ]
+                use: [
+                    'babel-loader'
+                ]
             },
             {
-                test: /\.(ttf|eot|svg|png|jpe?g|gif)(\?[\s\S]+)?$/,
+                test: /\.(ttf|eot|svg|png|webp|jpe?g|gif)(\?[\s\S]+)?$/,
                 type: 'asset/resource'
             }
         ]
