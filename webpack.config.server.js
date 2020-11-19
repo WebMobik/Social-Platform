@@ -1,3 +1,4 @@
+
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const CURRENT_WORKING_DIR = process.cwd()
@@ -19,10 +20,13 @@ const config = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [ 'babel-loader' ]
+            },
+            {
+                test: /\.(ttf|eot|svg|png|webp|jpe?g|gif)(\?[\s\S]+)?$/,
+                type: 'asset/resource'
             }
         ]
     }
-
 }
 
 module.exports = config
