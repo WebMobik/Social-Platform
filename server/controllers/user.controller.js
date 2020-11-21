@@ -118,9 +118,9 @@ const addFollowing = async (req, res, next) => {
     await User.findByIdAndUpdate(req.body.userId,
         {$push: {following: req.body.followId}})
     next()
-  } catch (e) {
+  } catch (err) {
     return res.status(400).json({
-      error: errorHandler.getErrorMessage(e)
+      error: errorHandler.getErrorMessage(err)
     })
   }
 }
@@ -135,9 +135,9 @@ const addFollower = async (req, res) => {
     result.hashed_password = undefined
     result.salt = undefined
     res.json(result)
-  } catch (e) {
+  } catch (err) {
     return res.status(400).json({
-      error: errorHandler.getErrorMessage(e)
+      error: errorHandler.getErrorMessage(err)
     })
   }
 }
@@ -147,9 +147,9 @@ const removeFollowing = async (req, res, next) => {
     await User.findByIdAndUpdate(req.body.userId,
       {$push: {following: req.body.unfollowId}})
     next()
-  } catch (e) {
+  } catch (err) {
     return res.status(400).json({
-      error: errorHandler.getErrorMessage(e)
+      error: errorHandler.getErrorMessage(err)
     })
   }
 }
@@ -171,6 +171,19 @@ const removeFollower = async (req, res) => {
   }
 }
 
+const findPeople = async (req, res) => {
+  const following = req.profile.following
+  following.push(req.profile._id)
+  try {
+    const users = await User.find({_id: {$nin: following}}).select('name')
+    res.json(users)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
 export default {
   create,
   userByID,
@@ -183,5 +196,6 @@ export default {
   addFollowing,
   addFollower,
   removeFollower,
-  removeFollowing
+  removeFollowing,
+  findPeople
 }
