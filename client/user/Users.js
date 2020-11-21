@@ -10,7 +10,6 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import ArrowForward from '@material-ui/icons/ArrowForward'
-import Person from '@material-ui/icons/Person'
 import {Link} from 'react-router-dom'
 import {list} from './api-user.js'
 
@@ -46,32 +45,34 @@ export default function Users() {
     }
   }, [])
 
+  return (
+    <Paper className={classes.root} elevation={4}>
+      <Typography variant="h6" className={classes.title}>
+        All Users
+      </Typography>
+      <List dense>
+        {users.map((item, i) => {
+          
+        const photoUrl = item._id
+            ? `/api/users/photo/${item._id}?${new Date().getTime()}`
+            : '/api/users/defaultphoto'
 
-    return (
-      <Paper className={classes.root} elevation={4}>
-        <Typography variant="h6" className={classes.title}>
-          All Users
-        </Typography>
-        <List dense>
-         {users.map((item, i) => {
-          return <Link to={"/user/" + item._id} key={i}>
-                    <ListItem button>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <Person/>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={item.name}/>
-                      <ListItemSecondaryAction>
-                      <IconButton>
-                          <ArrowForward/>
-                      </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                 </Link>
-               })
-             }
-        </List>
-      </Paper>
-    )
+        return <Link to={"/user/" + item._id} key={i}>
+                  <ListItem button>
+                    <ListItemAvatar>
+                      <Avatar src={photoUrl} />
+                    </ListItemAvatar>
+                    <ListItemText primary={item.name}/>
+                    <ListItemSecondaryAction>
+                    <IconButton>
+                        <ArrowForward/>
+                    </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </Link>
+              })
+            }
+      </List>
+    </Paper>
+  )
 }

@@ -48,7 +48,8 @@ const config = {
             'url': require.resolve('url/'),
             'buffer': require.resolve('buffer/'),
             'util': require.resolve('util/'),
-            'assert': require.resolve('assert/')
+            'assert': require.resolve('assert/'),
+            'os': require.resolve('os-browserify')
         }
     }
 }

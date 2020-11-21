@@ -5,12 +5,13 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
+import FileUpload from '@material-ui/icons/AddPhotoAlternate'
 import { makeStyles } from '@material-ui/core/styles'
 import auth from './../auth/auth-helper'
 import {read, update} from './api-user.js'
 import {Redirect} from 'react-router-dom'
-import { Avatar } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -52,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 export default function EditProfile({ match }) {
   const classes = useStyles()
   const [values, setValues] = useState({
+    id: '',
     name: '',
     password: '',
     email: '',
@@ -108,8 +110,8 @@ export default function EditProfile({ match }) {
     setValues({...values, [name]: value})
   }
 
-  const photoUrl = values.user._id 
-      ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
+  const photoUrl = values.id
+      ? `/api/users/photo/${values.id}?${new Date().getTime()}`
       : '/api/users/defaultphoto'
 
   if (values.redirectToProfile) {
@@ -134,7 +136,7 @@ export default function EditProfile({ match }) {
         </span>
         <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
         <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-        <TextField id="multiline-flexible" label="About" multiline rows="2" onChange={handleChange('about')} value={values.about} /><br/>
+        <TextField id="multiline-flexible" label="About" className={classes.textField} multiline rows="2" onChange={handleChange('about')} value={values.about} /><br/>
         <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
         <br/> {
           values.error && (<Typography component="p" color="error">
