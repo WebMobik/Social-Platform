@@ -2,6 +2,7 @@ import User from '../models/user.model'
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from './../../config/config'
+import profileImage from '../../client/assets/images/profile-pic.png'
 
 const signin = async (req, res) => {
   try {
@@ -72,5 +73,5 @@ export default {
   signin,
   signout,
   requireSignin,
-  hasAuthorization
+  hasAuthorization,
 }

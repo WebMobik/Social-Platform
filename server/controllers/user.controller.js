@@ -82,11 +82,25 @@ const remove = async (req, res) => {
   }
 }
 
+const photo = (req, res, next) => {
+  if (req.profile.photo.data) {
+    res.set("Content-Type", req.profile.photo.contentType)
+    return res.send(req.profile.photo.data)
+  }
+  next()
+}
+
+const defaultPhoto = (req, res) => {
+  return res.sendFile(process.cwd()+profileImage)
+}
+
 export default {
   create,
   userByID,
   read,
   list,
   remove,
-  update
+  update,
+  photo,
+  defaultPhoto
 }

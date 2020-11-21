@@ -1,3 +1,7 @@
+import formidable from 'formidable'
+import {readFileSync} from 'fs'
+import { extend } from 'lodash'
+
 const create = async (user) => {
   try {
       let response = await fetch('/api/users/', {
@@ -44,15 +48,40 @@ const read = async (params, credentials, signal) => {
 }
 
 const update = async (params, credentials, user) => {
+  const form = new formidable.IncomingForm()
+  form.keepExtensions = true
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Photo could not be uploaded"
+      })
+    }
+    let user = req.profile
+    user = extend(user, fields)
+    user.updated = Date.now()
+    if (files.photo) {
+      user.photo.data = readFileSync(files.photo.path)
+      user.photo.contentType = files.photo.type
+    }
+    try {
+      await user.save()
+      user.hashed_password = undefined
+      user.salt = undefined
+      res.json(user)
+    } catch (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+  })
   try {
     let response = await fetch('/api/users/' + params.userId, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify(user)
+      body: user
     })
     return await response.json()
   } catch(err) {

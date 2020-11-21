@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import auth from './../auth/auth-helper'
 import {read, update} from './api-user.js'
 import {Redirect} from 'react-router-dom'
+import { Avatar } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -34,6 +35,17 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: 'auto',
     marginBottom: theme.spacing(2)
+  },
+  bigAvatar: {
+    width: 60,
+    height: 60,
+    margin: 'auto'
+  },
+  input: {
+    display: 'none'
+  },
+  filename:{
+    marginLeft:'10px'
   }
 }))
 
@@ -43,6 +55,8 @@ export default function EditProfile({ match }) {
     name: '',
     password: '',
     email: '',
+    about: '',
+    photo: null,
     open: false,
     error: '',
     redirectToProfile: false
@@ -69,16 +83,17 @@ export default function EditProfile({ match }) {
   }, [match.params.userId])
 
   const clickSubmit = () => {
-    const user = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined
-    }
+    const userData = new FormData()
+    values.name && userData.append('name', values.name)
+    values.email && userData.append('email', values.email)
+    values.password && userData.append('password', values.password)
+    values.about && userData.append('about', values.about)
+    values.photo && userData.append('photo', values.photo)
     update({
       userId: match.params.userId
     }, {
       t: jwt.token
-    }, user).then((data) => {
+    }, userData).then((data) => {
       if (data && data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -87,32 +102,51 @@ export default function EditProfile({ match }) {
     })
   }
   const handleChange = name => event => {
-    setValues({...values, [name]: event.target.value})
+    const value = name === 'photo'
+        ? event.target.files[0]
+        : event.target.value
+    setValues({...values, [name]: value})
   }
 
-    if (values.redirectToProfile) {
-      return (<Redirect to={'/user/' + values.userId}/>)
-    }
-    return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            Edit Profile
-          </Typography>
-          <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
-          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
-              <Icon color="error" className={classes.error}>error</Icon>
-              {values.error}
-            </Typography>)
-          }
-        </CardContent>
-        <CardActions>
-          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-        </CardActions>
-      </Card>
-    )
+  const photoUrl = values.user._id 
+      ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
+      : '/api/users/defaultphoto'
+
+  if (values.redirectToProfile) {
+    return (<Redirect to={'/user/' + values.userId}/>)
+  }
+
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography variant="h6" className={classes.title}>
+          Edit Profile
+        </Typography>
+        <Avatar src={photoUrl} className={classes.bigAvatar}/>
+        <input accept="image/*" type="file" onChange={handleChange('photo')} style={{display: "none"}} id="icon-button-file" />
+        <label htmlFor="icon-button-file">
+          <Button variant="contained" color="default" component="span">
+              Upload <FileUpload />
+          </Button>
+        </label>
+        <span className={classes.filename}>
+          {values.photo ? values.photo.name : ''}
+        </span>
+        <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
+        <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
+        <TextField id="multiline-flexible" label="About" multiline rows="2" onChange={handleChange('about')} value={values.about} /><br/>
+        <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
+        <br/> {
+          values.error && (<Typography component="p" color="error">
+            <Icon color="error" className={classes.error}>error</Icon>
+            {values.error}
+          </Typography>)
+        }
+      </CardContent>
+      <CardActions>
+        <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+      </CardActions>
+    </Card>
+  )
 }
 
