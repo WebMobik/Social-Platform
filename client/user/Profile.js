@@ -16,6 +16,7 @@ import auth from './../auth/auth-helper'
 import {read} from './api-values.user.js'
 import {Redirect, Link} from 'react-router-dom'
 import FollowProfileButton from './FollowProfileButton'
+import { listByUser } from '../post/api-post'
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -37,6 +38,7 @@ export default function Profile({ match }) {
     redirectToSignin: false,
     following: false
   })
+  const [posts, setPosts] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -50,6 +52,7 @@ export default function Profile({ match }) {
         } else {
           const following = checkFollow(data)
           setValues({...values, user: data, following: following})
+          loadPosts(data._id)
         }
      })
 
@@ -58,6 +61,17 @@ export default function Profile({ match }) {
     }
 
   }, [match.params.userId])
+
+  const loadPosts = (user) => {
+    listByUser({userId: user}, {t: jwt.token})
+      .then(data => {
+        if (data && data.error) {
+          console.log(data.error)
+        } else {
+          setPosts(data)
+        }
+      })
+  }
 
   const checkFollow = (user) => {
     const match = user.followers.some((follower) => {
@@ -123,6 +137,7 @@ export default function Profile({ match }) {
           <ListItemText primary={values.user.about} />
         </ListItem>
       </List>
+      
     </Paper>
   )
 }
