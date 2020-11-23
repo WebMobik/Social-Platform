@@ -13,10 +13,11 @@ import Edit from '@material-ui/icons/Edit'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
 import auth from './../auth/auth-helper'
-import {read} from './api-values.user.js'
+import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
 import FollowProfileButton from './FollowProfileButton'
 import { listByUser } from '../post/api-post'
+import ProfileTabs from './ProfileTabs'
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -91,6 +92,13 @@ export default function Profile({ match }) {
       })
   }
 
+  const removePost = (post) => {
+    const updatedPosts = posts
+    const index = updatedPosts.indexOf(post)
+    updatedPosts.splice(index, 1)
+    setPosts(updatedPosts)
+  }
+
   const photoUrl = values.user._id
       ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
       : '/api/users/defaultphoto'
@@ -111,7 +119,7 @@ export default function Profile({ match }) {
           </ListItemAvatar>
           <ListItemText primary={values.user.name} secondary={values.user.email}/> 
           {
-            auth.isAuthenticated().user && auth.isAuthenticated().values.user._id == values.user._id
+            auth.isAuthenticated().user && auth.isAuthenticated().user._id == values.user._id
              ? (
                 <ListItemSecondaryAction>
                   <Link to={"/user/edit/" + values.user._id}>
@@ -137,7 +145,7 @@ export default function Profile({ match }) {
           <ListItemText primary={values.user.about} />
         </ListItem>
       </List>
-      
+      <ProfileTabs user={values.user} removePostUpdate={removePost} posts={posts} />
     </Paper>
   )
 }

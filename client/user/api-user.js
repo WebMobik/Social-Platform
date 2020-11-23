@@ -84,10 +84,10 @@ const follow = async (params, credentials, followId) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId: params.userId, followId: followId})
+      body: JSON.stringify({userId:params.userId, followId: followId})
     })
     return await response.json()
-  } catch (err) {
+  } catch(err) {
     console.log(err)
   }
 }

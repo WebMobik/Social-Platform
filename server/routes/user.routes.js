@@ -20,16 +20,10 @@ router.route('/api/users/defaultphoto')
   .get(userCtrl.defaultPhoto)
 
 router.route('/api/users/follow')
-  .put(authCtrl.requireSignin,
-       authCtrl.addFollowing,
-       authCtrl.addFollower
-    )
+  .put(authCtrl.requireSignin, userCtrl.addFollowing, userCtrl.addFollower)
 
 router.route('/api/users/unfollow')
-  .put(authCtrl.requireSignin,
-       authCtrl.removeFollowing,
-       authCtrl.removeFollower
-    )
+  .put(authCtrl.requireSignin, userCtrl.removeFollowing, userCtrl.removeFollower)
 
 router.route('/api/users/findpeople/:userId')
   .get(authCtrl.requireSignin, userCtrl.findPeople)

@@ -1,8 +1,9 @@
+import React from 'react'
 import { Button } from "@material-ui/core"
 import { follow, unfollow } from "./api-user"
 import PropTypes from 'prop-types'
 
-export default function FollowProfileButton (props) {
+export default function FollowProfileButton(props) {
     const followClick = () => {
         props.onButtonClick(follow)
     }

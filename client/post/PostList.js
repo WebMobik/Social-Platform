@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Post from './Post'
 
 export default function PostList(props) {
-    
 
     return (
         <div style={{marginTop: '24px'}}>
