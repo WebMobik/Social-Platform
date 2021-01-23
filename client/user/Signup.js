@@ -2,31 +2,31 @@ import React, { useState } from "react";
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { create } from "./api-user";
-import { Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, TextField, Typography, withStyles } from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, TextField, Typography, withStyles } from "@material-ui/core";
 
 const styles = theme => ({
     card: {
       maxWidth: 600,
       margin: 'auto',
       textAlign: 'center',
-      marginTop: theme.spacing.unit * 5,
-      paddingBottom: theme.spacing.unit * 2
+      marginTop: theme.spacing(5),
+      paddingBottom: theme.spacing(2)
     },
     error: {
       verticalAlign: 'middle'
     },
     title: {
-      marginTop: theme.spacing.unit * 2,
+      marginTop: theme.spacing(2),
       color: theme.palette.openTitle
     },
     textField: {
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit,
+      marginLeft: theme.spacing(),
+      marginRight: theme.spacing(),
       width: 300
     },
     submit: {
       margin: 'auto',
-      marginBottom: theme.spacing.unit * 2
+      marginBottom: theme.spacing(2)
     }
 })
 
@@ -59,8 +59,6 @@ function Signup({classes}) {
                 }
             })
     }
-
-    // const {classes} = props
 
     return (
         <div>

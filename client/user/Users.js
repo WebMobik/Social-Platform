@@ -8,11 +8,11 @@ import {ArrowForward, Person} from '@material-ui/icons'
 
 const styles = theme => ({
     root: theme.mixins.gutters({
-      padding: theme.spacing.unit,
-      margin: theme.spacing.unit * 5
+      padding: theme.spacing(),
+      margin: theme.spacing(5)
     }),
     title: {
-      margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
+      margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
       color: theme.palette.openTitle
     }
 })
@@ -47,7 +47,7 @@ function Users({classes}) {
             <List dense>
                 {users.map((item, index) => {
                         return (
-                            <Link to={"/users/" + item._id} key={index}>
+                            <Link to={"/user/" + item._id} key={index}>
                                 <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>

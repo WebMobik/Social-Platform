@@ -1,5 +1,4 @@
 export default ({markup, css}) => {
-    console.log(markup)
     return `
         <!DOCTYPE html>
             <html lang="en">
@@ -8,7 +7,15 @@ export default ({markup, css}) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-                <style>a{text-decoration: none}</style>
+                <style>
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    a {
+                        text-decoration: none;
+                    }
+                </style>
                 <title>MERN Skeleton</title>
             </head>
             <body>
