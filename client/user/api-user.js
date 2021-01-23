@@ -62,7 +62,7 @@ const update = async (params, credentials, user) => {
 const remove = async (params, credentials) => {
   try {
     const response = await fetch('/api/users/' + params.userId, {
-      method: 'DEconstE',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

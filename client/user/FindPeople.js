@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {findPeople, follow} from './api-user'
-import { Avatar, Button, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Snackbar } from "@material-ui/core";
+import { Avatar, Button, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Paper, Snackbar, Typography } from "@material-ui/core";
 import ViewIcon from '@material-ui/icons/Visibility'
+import auth from "../auth/auth-helper";
 
 const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({

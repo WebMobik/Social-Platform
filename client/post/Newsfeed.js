@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles, Card, Divider, Typography } from "@material-ui/core";
 import { listNewsFeed } from './api-post';
 import auth from '../auth/auth-helper';
+import NewPost from './NewPost';
+import PostList from './PostList';
 
 const useStyles = makeStyles(theme => ({
     card: {
