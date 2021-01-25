@@ -32,4 +32,8 @@ router
     userCtrl.removeFollower
   )
 
+router
+  .route('/api/users/findpeople/:userId')
+  .get(authCtrl.requireSignin, userCtrl.findPeople)
+
 export default router
