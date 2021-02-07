@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import auth from '../auth/auth-helper'
-import { follow, read } from './api-user'
+import { read } from './api-user'
 import DeleteUser from './DeleteUser'
 import {
   List,
@@ -18,8 +18,9 @@ import {
 import { Paper, Typography, Avatar, IconButton } from '@material-ui/core'
 import { Edit, Person } from '@material-ui/icons'
 import FollowProfileButton from './FollowProfileButton'
+import { listByUser } from '../post/api-post'
 
-const styles = (theme) => ({
+const styles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     maxWidth: 600,
     margin: 'auto',
@@ -35,7 +36,7 @@ const styles = (theme) => ({
     height: 60,
     margin: 10,
   },
-})
+}))
 
 function Profile({ match, classes }) {
   const [values, setValues] = useState({
@@ -43,6 +44,7 @@ function Profile({ match, classes }) {
     redirectToSignin: false,
     following: false,
   })
+  const [posts, setPosts] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -60,12 +62,23 @@ function Profile({ match, classes }) {
       } else {
         let following = checkFollow(data)
         setValues({ ...values, user: data, following: following })
+        loadPosts(data._id)
       }
     })
     return function cleanup() {
       abortController.abort()
     }
   }, [match.params.userId])
+
+  const loadPosts = (user) => {
+    listByUser({ userId: user }, { t: jwt.token }).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        setPosts(data)
+      }
+    })
+  }
 
   const checkFollow = (user) => {
     const match = user.followers.some((follower) => {

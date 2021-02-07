@@ -77,7 +77,7 @@ const remove = async (params, credentials) => {
 
 const follow = async (params, credentials, followId) => {
   try {
-    let response = await fetch('/api/users/follow', {
+    let response = await fetch('/api/users/follow/', {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -94,7 +94,7 @@ const follow = async (params, credentials, followId) => {
 
 const unfollow = async (params, credentials, unfollowId) => {
   try {
-    let response = await fetch('/api/users/unfollow', {
+    let response = await fetch('/api/users/unfollow/', {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
