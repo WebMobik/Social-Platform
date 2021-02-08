@@ -85,6 +85,10 @@ export function FindPeople() {
     )
   }
 
+  const handleRequestClose = (e, reason) => {
+    setValues({ ...values, open: false })
+  }
+
   return (
     <List>
       {values.users.map((user, i) => {

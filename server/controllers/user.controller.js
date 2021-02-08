@@ -155,6 +155,7 @@ const removeFollowing = async (req, res, next) => {
     })
   }
 }
+
 const removeFollower = async (req, res) => {
   try {
     let result = await User.findByIdAndUpdate(

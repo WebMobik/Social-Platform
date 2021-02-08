@@ -13,6 +13,7 @@ import {
   Typography,
   CardActions,
   Button,
+  Avatar,
 } from '@material-ui/core'
 import { PhotoCamera } from '@material-ui/icons'
 
@@ -92,9 +93,10 @@ const NewPost = ({ addUpdate }) => {
     setValues({ ...values, [name]: value })
   }
 
-  const photoUrl = values.user._id
+  const photoURL = values.user._id
     ? '/api/users/photo/' + values.user._id
     : '/api/users/defaultphoto'
+
   return (
     <div className={classes.root}>
       <Card className={classes.card}>

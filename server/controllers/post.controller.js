@@ -83,10 +83,107 @@ const postByID = async (req, res, next, id) => {
   }
 }
 
+const isPoster = (req, res, next) => {
+  const isPoster = req.post && req.auth && req.post.postedBy == req.auth._id
+  if (!isPoster) {
+    return res.status(403).json({
+      error: 'User is not authorized',
+    })
+  }
+  next()
+}
+
+const remove = async (req, res) => {
+  try {
+    const post = req.post
+    const removePost = await post.remove()
+    res.json(removePost)
+  } catch (err) {
+    return res.status(400).json({
+      error: ErrorHandler.getErrorMessage(err),
+    })
+  }
+}
+
+const like = async (req, res) => {
+  try {
+    const result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      { $push: { likes: req.body.userId } },
+      { new: true }
+    )
+    res.json(result)
+  } catch (err) {
+    return res.status(400).json({
+      error: ErrorHandler.getErrorMessage(err),
+    })
+  }
+}
+
+const unlike = async (req, res) => {
+  try {
+    const result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      { $pull: { likes: req.body.userId } },
+      { new: true }
+    )
+    res.json(result)
+  } catch (err) {
+    return res.status(400).json({
+      error: ErrorHandler.getErrorMessage(err),
+    })
+  }
+}
+
+const comment = async (req, res) => {
+  const comment = req.body.comment
+  comment.postedBy = req.body.userId
+  try {
+    const result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      { $push: { comments: comment } },
+      { new: true }
+    )
+      .populate('comments.postedBy', '_id name')
+      .populate('postedBy', '_id name')
+      .exec()
+    res.json(result)
+  } catch (err) {
+    return res.status(400).json({
+      error: ErrorHandler.getErrorMessage(err),
+    })
+  }
+}
+
+const uncomment = async (req, res) => {
+  const comment = req.body.comment
+  try {
+    const result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      { $pull: { comments: { _id: comment._id } } },
+      { new: true }
+    )
+      .populate('comments.postedBy', '_id name')
+      .populate('postedBy', '_id name')
+      .exec()
+    res.json(result)
+  } catch (err) {
+    return res.status(400).json({
+      error: ErrorHandler.getErrorMessage(err),
+    })
+  }
+}
+
 export default {
   listNewsFeed,
   listByUser,
   create,
   photo,
   postByID,
+  isPoster,
+  remove,
+  like,
+  unlike,
+  comment,
+  uncomment,
 }

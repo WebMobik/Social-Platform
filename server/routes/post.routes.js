@@ -22,3 +22,17 @@ router.route('/api/posts/photo/:postId').get(postCtrl.photo)
 router.param('postId', postCtrl.postByID)
 
 router.param('userId', userCtrl.userByID)
+
+router
+  .route('/api/posts/:postId')
+  .delete(authCtrl.requireSignin, postCtrl.isPoster, postCtrl.remove)
+
+router.route('/api/posts/like').put(authCtrl.requireSignin, postCtrl.like)
+router.route('/api/posts/unlike').put(authCtrl.requireSignin, postCtrl.unlike)
+
+router.route('/api/posts/comment').put(authCtrl.requireSignin, postCtrl.comment)
+router
+  .route('/api/posts/uncomment')
+  .put(authCtrl.requireSignin, postCtrl.uncomment)
+
+export default router

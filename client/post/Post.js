@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import auth from '../auth/auth-helper'
 import { Link } from 'react-router-dom'
-
+import { like, unlike, remove } from './api-post'
 import {
   Card,
   CardHeader,
@@ -11,13 +12,13 @@ import {
   Avatar,
   IconButton,
   makeStyles,
-  Typography,
   Divider,
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import CommentIcon from '@material-ui/icons/Comment'
+import Comments from './Comments'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -50,30 +51,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Post = ({ post }) => {
+const Post = ({ post, onRemove }) => {
   const classes = useStyles()
   const jwt = auth.isAuthenticated()
+
   const checkLike = (likes) => {
     const match = likes.indexOf(jwt.user._id) !== -1
     return match
   }
+
   const [values, setValues] = useState({
     like: checkLike(post.likes),
     likes: post.likes.length,
-    comments: post.comment,
+    comments: post.comments,
   })
-
-  // const clickLike = () => {
-  //     const callApi = values.like ? unlike
-  // }
 
   const updateComments = (comments) => {
     setValues({ ...values, comments: comments })
   }
 
-  //   const deletePost = () => {
-  //       remove({post})
-  //   }
+  const clickLike = () => {
+    const callApi = values.like ? unlike : like
+    callApi({ userId: jwt.user._id }, { t: jwt.token }, post._id).then(
+      (data) => {
+        if (data.error) {
+          console.log(data.error)
+        } else {
+          setValues({ ...values, like: !values.like, likes: data.likes.length })
+        }
+      }
+    )
+  }
+
+  const deletePost = () => {
+    remove({ postId: post._id }, { t: jwt.token }).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        onRemove(post)
+      }
+    })
+  }
 
   return (
     <Card className={classes.card}>
@@ -146,3 +164,8 @@ const Post = ({ post }) => {
 }
 
 export default Post
+
+Post.propTypes = {
+  post: PropTypes.object.isRequired,
+  onRemove: PropTypes.func.isRequired,
+}
